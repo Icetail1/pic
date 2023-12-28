@@ -11,7 +11,7 @@
   <button onclick="recognizeText()">识别文字</button>
   <div id="result"></div>
 
-  <script src="https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js"></script>
+  <script src="https://cdn.rawgit.com/naptha/tesseract.js/2.0.0/dist/tesseract.js"></script>
   <script>
     async function recognizeText() {
       const input = document.getElementById('uploadInput');
@@ -30,24 +30,27 @@
       }
     }
 
-    async function recognizeWithTesseract(imageData, resultDiv) {
-      resultDiv.innerText = '正在识别...';
+async function recognizeWithTesseract(imageData, resultDiv) {
+  resultDiv.innerText = '正在识别...';
 
-      // Load Tesseract.js
-      await Tesseract.load();
+  // Load Tesseract.js
+  const worker = createTesseractWorker({
+    workerPath: 'https://cdn.rawgit.com/naptha/tesseract.js/2.0.0/dist/worker.min.js',
+    langPath: 'https://cdn.rawgit.com/naptha/tessdata/gh-pages/3.02/',
+    corePath: 'https://cdn.rawgit.com/naptha/tesseract.js-core/1.0.0/index.js',
+  });
 
-      // Perform text recognition
-      Tesseract.recognize(
-        {
-          data: imageData,
-          progress: progress => {
-            console.log('识别进度:', progress);
-          },
-        }
-      ).then(({ data: { text } }) => {
-        resultDiv.innerText = '识别结果：\n' + text;
-      });
-    }
+  await worker.load();
+
+  // Perform text recognition
+  const { data: { text } } = await worker.recognize(imageData);
+  
+  // Terminate worker
+  await worker.terminate();
+
+  resultDiv.innerText = '识别结果：\n' + text;
+}
+
   </script>
 </body>
 </html>
