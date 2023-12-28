@@ -11,9 +11,9 @@
   <button onclick="recognizeText()">识别文字</button>
   <div id="result"></div>
 
-  <script src="https://tesseract.projectnaptha.com"></script>
+  <script src="https://tesseract.projectnaptha.com/tesseract.js"></script>
   <script>
-    function recognizeText() {
+    async function recognizeText() {
       const input = document.getElementById('uploadInput');
       const resultDiv = document.getElementById('result');
 
@@ -33,7 +33,10 @@
     async function recognizeWithTesseract(imageData, resultDiv) {
       resultDiv.innerText = '正在识别...';
 
-      // 进行文字识别
+      // Load Tesseract.js
+      await Tesseract.load();
+
+      // Perform text recognition
       Tesseract.recognize(
         {
           data: imageData,
