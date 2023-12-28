@@ -3,53 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>图像识别</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+  <title>文字识别</title>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 </head>
 <body>
-  <h1>图像识别</h1>
+  <h1>文字识别</h1>
   <input type="file" id="uploadInput" accept="image/*">
-  <button onclick="classifyImage()">识别图像</button>
+  <button onclick="recognizeText()">识别文字</button>
   <div id="result"></div>
 
   <script>
-    async function classifyImage() {
+    function recognizeText() {
       const input = document.getElementById('uploadInput');
       const resultDiv = document.getElementById('result');
 
       const file = input.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = async function (e) {
-          const imageData = new Image();
-          imageData.src = e.target.result;
-          await loadModelAndClassify(imageData, resultDiv);
+        reader.onload = function (e) {
+          const imageData = new Uint8Array(e.target.result);
+          recognizeWithTesseract(imageData, resultDiv);
         };
-        reader.readAsDataURL(file);
+        reader.readAsArrayBuffer(file);
       } else {
         resultDiv.innerText = '请选择要上传的图片';
       }
     }
 
-    async function loadModelAndClassify(image, resultDiv) {
-      resultDiv.innerText = '正在加载模型...';
+    async function recognizeWithTesseract(imageData, resultDiv) {
+      resultDiv.innerText = '正在识别...';
 
-      // 加载 MobileNet 模型
-      const model = await mobilenet.load();
-      resultDiv.innerText = '模型加载完成，正在识别...';
+      // 初始化 Tesseract
+      const worker = Tesseract.createWorker();
+      await worker.load();
+      await worker.loadLanguage('eng');
+      await worker.initialize('eng');
 
-      // 进行图像分类
-      const predictions = await model.classify(image);
-      displayResult(predictions, resultDiv);
-    }
+      // 进行文字识别
+      const { data: { text } } = await worker.recognize(imageData);
+      resultDiv.innerText = '识别结果：\n' + text;
 
-    function displayResult(predictions, resultDiv) {
-      let resultText = '识别结果：\n';
-      predictions.forEach(prediction => {
-        resultText += `${prediction.className}: ${Math.round(prediction.probability * 100)}%\n`;
-      });
-      resultDiv.innerText = resultText;
+      // 关闭 worker
+      await worker.terminate();
     }
   </script>
 </body>
