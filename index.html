@@ -12,7 +12,7 @@
   <div id="result"></div>
 
 <script src="https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js"></script>
-<script>
+  <script>
     async function recognizeText() {
       const input = document.getElementById('uploadInput');
       const resultDiv = document.getElementById('result');
@@ -36,13 +36,11 @@
       // Initialize Tesseract.js
       Tesseract.recognize({
         data: imageData,
+        onProgress: ({ progress }) => {
+          console.log('识别进度:', progress);
+        },
       }).then(({ data: { text } }) => {
         resultDiv.innerText = '识别结果：\n' + text;
-      });
-
-      // Handle progress outside of the Tesseract.recognize function
-      Tesseract.progress(message => {
-        console.log('识别进度:', message);
       });
     }
   </script>
