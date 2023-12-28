@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>文字识别</title>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 </head>
 <body>
   <h1>文字识别</h1>
@@ -12,6 +11,7 @@
   <button onclick="recognizeText()">识别文字</button>
   <div id="result"></div>
 
+  <script src="https://tesseract.projectnaptha.com/tesseract.js"></script>
   <script>
     function recognizeText() {
       const input = document.getElementById('uploadInput');
@@ -33,18 +33,17 @@
     async function recognizeWithTesseract(imageData, resultDiv) {
       resultDiv.innerText = '正在识别...';
 
-      // 初始化 Tesseract
-      const worker = Tesseract.createWorker();
-      await worker.load();
-      await worker.loadLanguage('eng');
-      await worker.initialize('eng');
-
       // 进行文字识别
-      const { data: { text } } = await worker.recognize(imageData);
-      resultDiv.innerText = '识别结果：\n' + text;
-
-      // 关闭 worker
-      await worker.terminate();
+      Tesseract.recognize(
+        {
+          data: imageData,
+          progress: progress => {
+            console.log('识别进度:', progress);
+          },
+        }
+      ).then(({ data: { text } }) => {
+        resultDiv.innerText = '识别结果：\n' + text;
+      });
     }
   </script>
 </body>
