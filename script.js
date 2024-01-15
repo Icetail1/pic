@@ -24,7 +24,7 @@ function recognizeText(imageSrc, callback) {
   // 使用 Tesseract.js 进行文字识别，添加中文语言数据文件
   Tesseract.recognize(
     imageSrc,
-    'chi_sim', // 语言，这里是中文简体
+    'jpn', // 语言，这里是中文简体
     { logger: info => console.log(info) } // 可选参数，用于输出日志
   ).then(({ data: { text } }) => {
     callback(text);
