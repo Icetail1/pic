@@ -3,46 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>文字识别</title>
+  <title>图片文字识别</title>
+
+  <!-- 引入 Tesseract.js 从 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
 </head>
 <body>
-  <h1>文字识别</h1>
-  <input type="file" id="uploadInput" accept="image/*">
-  <button onclick="recognizeText()">识别文字</button>
+  <input type="file" id="imageInput" accept="image/*">
+  <button onclick="uploadImage()">上传图片</button>
   <div id="result"></div>
 
-<script src="https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js"></script>
-  <script>
-    async function recognizeText() {
-      const input = document.getElementById('uploadInput');
-      const resultDiv = document.getElementById('result');
-
-      const file = input.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const imageData = new Uint8Array(e.target.result);
-          recognizeWithTesseract(imageData, resultDiv);
-        };
-        reader.readAsArrayBuffer(file);
-      } else {
-        resultDiv.innerText = '请选择要上传的图片';
-      }
-    }
-
-    async function recognizeWithTesseract(imageData, resultDiv) {
-      resultDiv.innerText = '正在识别...';
-
-      // Initialize Tesseract.js
-      Tesseract.recognize({
-        data: imageData,
-        onProgress: ({ progress }) => {
-          console.log('识别进度:', progress);
-        },
-      }).then(({ data: { text } }) => {
-        resultDiv.innerText = '识别结果：\n' + text;
-      });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
