@@ -14,7 +14,7 @@ function uploadImage() {
         var result = text.includes("猫咪王") ? "yes" : "no";
         
         // 输出结果
-        resultDiv.innerHTML = "<p>识别结果: " + result + "</p>";
+        resultDiv.innerHTML = "<p>识别结果: " + result + text+"</p>";
       });
     };
 
