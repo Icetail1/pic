@@ -1,5 +1,3 @@
-// script.js
-
 function uploadImage() {
   var input = document.getElementById('imageInput');
   var resultDiv = document.getElementById('result');
@@ -12,7 +10,11 @@ function uploadImage() {
 
       // 调用 OCR 函数
       recognizeText(imageSrc, function (text) {
-        resultDiv.innerHTML = "<p>识别结果:</p><p>" + text + "</p>";
+        // 检查 OCR 返回的文本是否包含"猫咪王"
+        var result = text.includes("猫咪王") ? "yes" : "no";
+        
+        // 输出结果
+        resultDiv.innerHTML = "<p>识别结果: " + result + "</p>";
       });
     };
 
