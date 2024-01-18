@@ -17,12 +17,16 @@ function uploadImage() {
         {
           result = "粉丝群794117143，密码是这个题答案：Ice小学共有450人，喜欢外语与不喜欢外语的人数的比为5：4,喜欢数学和不喜欢数学的人数的比为8:7,两门都喜欢的有100人，问两门都不喜欢的有多少人？";
         }
+        if( cleanText.includes("粉丝勋章墙"))
+        {
+          result = "粉丝群794117143，密码是这个题答案：Ice小学共有450人，喜欢外语与不喜欢外语的人数的比为5：4,喜欢数学和不喜欢数学的人数的比为8:7,两门都喜欢的有100人，问两门都不喜欢的有多少人？";
+        }
         if( cleanText.includes("Icetail_official"))
         {
           result = "作弊都不会？你是猪吗";
         }
           // 输出结果
-        resultDiv.innerHTML = "<p>" + result+ text  +"</p>";
+        resultDiv.innerHTML = "<p>" + result  +"</p>";
       });
     };
 
