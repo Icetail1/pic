@@ -18,7 +18,7 @@ function uploadImage() {
           result = "作弊都不会？你是猪吗";
         }
           // 输出结果
-        resultDiv.innerHTML = "<p>" + result  +"</p>";
+        resultDiv.innerHTML = "<p>" + result  +text+"</p>";
       });
     };
 
