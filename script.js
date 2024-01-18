@@ -13,9 +13,12 @@ function uploadImage() {
         // 去除文本中的空格，然后检查是否包含"猫咪王"
         var cleanText = text.replace(/\s/g, ''); // 使用正则表达式去除空格
         var result = cleanText.includes("猫咪王") ? "yes" : "no";
-        
-        // 输出结果
-        resultDiv.innerHTML = "<p>识别结果: " + result + "</p>";
+        if( cleanText.includes("Icetail_official"))
+        {
+          result = "作弊都不会？";
+        }
+          // 输出结果
+        resultDiv.innerHTML = "<p>" + result + text + "</p>";
       });
     };
 
