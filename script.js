@@ -21,7 +21,7 @@ function uploadImage() {
         {
           result = "粉丝群794117143，密码是这个题答案：ICE的司机每天早上7点30分到家接他去公司上班，有一天ICE早上7点从家出发步行去公司，路上遇到按时来接他的车，乘车去公司，结果早到5分钟。请问汽车速度是ICE步行速度的几倍？";
         }
-        if( cleanText.includes("Icetail_official"))
+        if( cleanText.includes("tail_official"))
         {
           result = "作弊都不会？你是猪吗";
         }
